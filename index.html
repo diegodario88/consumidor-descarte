@@ -1,36 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
     <title>Consumidor de Descarte</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <script
+      src="https://kit.fontawesome.com/428babd6fe.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script defer type="module" src="render.js"></script>
   </head>
   <body>
-    <main class="box">
-      <form id="formulario">
-        <div>
-          <label for="nome">Digite o nome</label>
-          <input type="text" name="nome" id="nome" />
+    <main class="container">
+      <section class="section">
+        <h1 class="title has-text-centered">Formulário Descarte NF</h1>
+        <h2 class="subtitle">
+          Preencha os campos para submeter requisições de descarte de notas
+          fiscais com base em identificadores únicos. Esses identificadores são
+          provenientes de uma lista ou arquivo.
+        </h2>
+        <div class="box">
+          <form id="formulario">
+            <div class="field">
+              <label class="label" for="nome">Digite o nome</label>
+              <div class="control has-icons-left">
+                <input
+                  class="input"
+                  type="text"
+                  name="nome"
+                  id="nome"
+                  placeholder="Ex: Florentine Rosalie"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="cpf">CPF</label>
+              <div class="control has-icons-left">
+                <input
+                  class="input"
+                  type="text"
+                  name="cpf"
+                  id="cpf"
+                  placeholder="Ex: 657.374.740-20"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-address-card"></i>
+                </span>
+              </div>
+              <p class="help">Apenas números</p>
+            </div>
+            <div class="field">
+              <label class="label" for="cidade">Cidade</label>
+              <div class="control has-icons-left">
+                <input
+                  class="input is-fullwidth"
+                  type="text"
+                  name="cidade"
+                  id="cidade"
+                  placeholder="Ex: Maringá"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-city"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="cidade">Estado</label>
+              <div class="control has-icons-left">
+                <input
+                  class="input"
+                  type="text"
+                  name="estado"
+                  id="estado"
+                  placeholder="Ex: Paraná"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-flag"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="arquivo">Arquivo</label>
+              <div class="file has-name is-fullwidth">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="arquivo" />
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label"> Selecione o arquivo… </span>
+                  </span>
+                  <span class="file-name">
+                    Lista de notas 2017-07-29 at 15.54.25.csv
+                  </span>
+                </label>
+              </div>
+            </div>
+          </form>
         </div>
-        <div>
-          <label for="cpf">CPF</label>
-          <input type="text" name="cpf" id="cpf" />
+        <div class="control has-text-centered mt-5 mb-3">
+          <button class="button is-link is-medium">
+            <span class="icon">
+              <i class="fas fa-rocket"></i>
+            </span>
+            <span>Enviar formulário</span>
+          </button>
         </div>
-        <div>
-          <label for="cidade">Cidade</label>
-          <input type="text" name="cidade" id="cidade" />
-        </div>
-        <div>
-          <label for="arquivo">Arquivo</label>
-          <input type="file" name="arquivo" id="arquivo" />
-        </div>
-      </form>
-
-      <button type="submit" id="btnTrigga">Enviar formulário</button>
+      </section>
       <div id="caixaResultado"></div>
     </main>
   </body>
