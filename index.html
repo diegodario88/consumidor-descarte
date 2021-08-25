@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consumidor de Descarte</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer type="module" src="render.js"></script>
+  </head>
+  <body>
+    <main class="box">
+      <form id="formulario">
+        <div>
+          <label for="nome">Digite o nome</label>
+          <input type="text" name="nome" id="nome" />
+        </div>
+        <div>
+          <label for="cpf">CPF</label>
+          <input type="text" name="cpf" id="cpf" />
+        </div>
+        <div>
+          <label for="cidade">Cidade</label>
+          <input type="text" name="cidade" id="cidade" />
+        </div>
+        <div>
+          <label for="arquivo">Arquivo</label>
+          <input type="file" name="arquivo" id="arquivo" />
+        </div>
+      </form>
+
+      <button type="submit" id="btnTrigga">Enviar formulário</button>
+      <div id="caixaResultado"></div>
+    </main>
+  </body>
+</html>

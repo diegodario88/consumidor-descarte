@@ -1,0 +1,15 @@
+{
+  "name": "consumidor-descarte",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "electron": "electron ."
+  },
+  "author": "Diego Dario & Caio Dario",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "electron": "^13.2.2"
+  }
+}
