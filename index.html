@@ -20,6 +20,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/imask"></script>
     <script defer type="module" src="render.js"></script>
   </head>
   <body>
@@ -32,7 +33,7 @@
           provenientes de uma lista ou arquivo.
         </h2>
         <div class="box">
-          <form id="formulario">
+          <form id="form">
             <div class="field">
               <label class="label" for="nome">Digite o nome</label>
               <div class="control has-icons-left">
@@ -98,15 +99,20 @@
               <label class="label" for="arquivo">Arquivo</label>
               <div class="file has-name is-fullwidth">
                 <label class="file-label">
-                  <input class="file-input" type="file" name="arquivo" />
+                  <input
+                    class="file-input"
+                    type="file"
+                    name="arquivo"
+                    id="fileInput"
+                  />
                   <span class="file-cta">
                     <span class="file-icon">
                       <i class="fas fa-upload"></i>
                     </span>
                     <span class="file-label"> Selecione o arquivo… </span>
                   </span>
-                  <span class="file-name">
-                    Lista de notas 2017-07-29 at 15.54.25.csv
+                  <span class="file-name" id="fileName">
+                    Nenhum arquivo selecionado.
                   </span>
                 </label>
               </div>
@@ -114,7 +120,7 @@
           </form>
         </div>
         <div class="control has-text-centered mt-5 mb-3">
-          <button class="button is-link is-medium">
+          <button type="submit" form="form" class="button is-link is-medium">
             <span class="icon">
               <i class="fas fa-rocket"></i>
             </span>
@@ -122,7 +128,22 @@
           </button>
         </div>
       </section>
-      <div id="caixaResultado"></div>
     </main>
+    <div class="modal" id="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="section">
+          <article class="message is-warning">
+            <div class="message-body">
+             Estamos enviando requisições de descarte com base no número de
+              <strong>10</strong> requisições por etapa, ao receber um código de sucesso procedemos com as próximas.
+              <p class="help">
+                Esse número poderá ser configurado no futuro através de um campo específico.
+              </p>
+          </article>
+          <progress class="progress is-success" id="progress" max="100"></progress>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

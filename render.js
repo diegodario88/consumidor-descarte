@@ -1,16 +1,20 @@
-const btnTrigga = document.getElementById("btnTrigga");
-const caixaResultado = document.getElementById("caixaResultado");
-const formulario = document.getElementById("formulario");
+const form = document.querySelector("#form");
+const fileInput = document.querySelector("#fileInput");
+const cpf = document.querySelector("#cpf");
+const modal = document.querySelector("#modal");
 
-btnTrigga.addEventListener("click", (evt) => {
+form.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  const elementos = formulario.elements;
-  console.log(elementos);
+  modal.classList.add("is-active");
 
-  //TODO: Pegar os inputs montar o payload
+  console.log(form.elements);
 });
 
 function fetchDiscarded() {
+  //TODO: Falta fazer uma função que monta o payload.
+  //Após o envio do post deve remover a classe is-active do modal e exibir um resumo
+  //das ações que foram feitas.
+
   axios.post("http://localhost:8080/api/v1/developers", payload).then((res) => {
     console.log(res);
     const p = document.createElement("p");
@@ -18,3 +22,14 @@ function fetchDiscarded() {
     caixaResultado.appendChild(p);
   });
 }
+
+fileInput.onchange = () => {
+  if (fileInput.files.length > 0) {
+    const fileName = document.querySelector("#fileName");
+    fileName.textContent = fileInput.files[0].name;
+  }
+};
+
+IMask(cpf, {
+  mask: "000.000.000-00",
+});
