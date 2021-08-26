@@ -109,7 +109,7 @@ function populateStateSelect() {
     );
 }
 
-async function populateCitiesSelect(UF) {
+function populateCitiesSelect(UF) {
   document.querySelector(".cidade-holder").classList.add("is-loading");
   axios
     .get(
