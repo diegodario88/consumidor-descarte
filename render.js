@@ -4,20 +4,60 @@ const cpf = document.querySelector("#cpf");
 const estados = document.querySelector("#estado");
 const cidades = document.querySelector("#cidade");
 const modal = document.querySelector("#modal");
+const calibragemValor = document.querySelector("#calibragem-valor");
+const itensTotal = document.querySelector("#itens-total");
+const progress = document.querySelector("#progress");
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-form.addEventListener("submit", (evt) => {
+const toObject = (acc, current) => {
+  acc[current.name] = current.value;
+  return acc;
+};
+
+form.addEventListener("submit", async (evt) => {
   evt.preventDefault();
   modal.classList.add("is-active");
+  const inputs = Array.from(form.elements)
+    .filter((input) => input.name)
+    .reduce(toObject, {});
 
-  console.log(form.elements);
+  const fakeItensQueSeraoConsumidosDoArquivo = [];
+
+  for (let index = 1; index <= 200; index++) {
+    fakeItensQueSeraoConsumidosDoArquivo.push(index);
+  }
+
+  calibragemValor.textContent = inputs["calibragem"];
+  itensTotal.textContent = fakeItensQueSeraoConsumidosDoArquivo.length;
+
+  const rounds = Math.floor(
+    fakeItensQueSeraoConsumidosDoArquivo.length / inputs["calibragem"]
+  );
+
+  const valuePerRound = Math.floor(100 / rounds);
+
+  const results = await getInChunk(
+    fakeItensQueSeraoConsumidosDoArquivo,
+    inputs["calibragem"],
+    valuePerRound
+  );
+  console.log(results);
+  modal.classList.remove("is-active");
+  Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Todas as notas fiscais foram descartadas",
+    showConfirmButton: false,
+    timer: 1500,
+  });
 });
 
-const getInChunk = async function (items, chunkSize) {
+const getInChunk = async function (items, chunkSize, valuePerRound) {
   const chunkResults = [];
   const results = [];
   let chunkPromises = [];
+  sleep(1000).then(() => progress.setAttribute("value", valuePerRound));
 
   for (let index = 0; index < items.length; index++) {
     if (index % chunkSize === 0) {
@@ -28,7 +68,7 @@ const getInChunk = async function (items, chunkSize) {
       await sleep(2000); //Delay para não sobrecarregar o endpoint
 
       chunkResults.push(await Promise.all(chunkPromises));
-
+      progress.setAttribute("value", progress.value + valuePerRound);
       chunkPromises.push(
         axios
           .get(`https://jsonplaceholder.typicode.com/todos/${items[index]}`)
@@ -44,6 +84,8 @@ const getInChunk = async function (items, chunkSize) {
   }
 
   if (chunkPromises.length) {
+    console.warn(`invocando ${chunkPromises.length} requisições após 2000ms`);
+    await sleep(2000); //Delay para não sobrecarregar o endpoint
     chunkResults.push(await Promise.all(chunkPromises));
   }
 
@@ -130,15 +172,6 @@ function populateCitiesSelect(UF) {
 IMask(cpf, {
   mask: "000.000.000-00",
 });
-
-async function main() {
-  const strings = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22,
-  ];
-  const results = await getInChunk(strings, 5);
-  console.log(results);
-}
 
 document.addEventListener("DOMContentLoaded", (event) => {
   populateStateSelect();

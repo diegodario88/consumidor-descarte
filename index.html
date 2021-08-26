@@ -21,6 +21,7 @@
     ></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/imask"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
     <script src="render.js" type="module" defer></script>
   </head>
   <body>
@@ -100,7 +101,8 @@
                   min="10"
                   max="100"
                   list="tickmarks"
-                  value="50"
+                  value="15"
+                  name="calibragem"
                 />
                 <datalist id="tickmarks">
                   <option value="10" label="10%"></option>
@@ -157,19 +159,20 @@
         <div class="section">
           <article class="message is-warning">
             <div class="message-body">
-              Estamos enviando requisições de descarte com base no número de
-              <strong>10</strong> requisições por etapa, ao receber um código de
-              sucesso procedemos com as próximas.
-              <p class="help">
-                Esse número poderá ser configurado no futuro através de um campo
-                específico.
-              </p>
+              Estamos enviando <strong id="itens-total">10</strong> requisições
+              de descarte com base no número de
+              <strong id="calibragem-valor">10</strong> requisições por etapa,
+              em um intervalor de tempo entre cada uma de
+              <strong>2.000 milissegundos</strong>.<br />
+              Ao receber um código de sucesso procedemos com as próximas.
+              <p class="help">Esse número é configurado no campo calibragem.</p>
             </div>
           </article>
           <progress
             id="progress"
             class="progress is-success"
             max="100"
+            value="1"
           ></progress>
         </div>
       </div>
