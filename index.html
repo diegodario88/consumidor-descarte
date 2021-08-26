@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
     <title>Consumidor de Descarte</title>
-    <link rel="stylesheet" href="style.css" />
+    <link href="style.css" rel="stylesheet" />
     <link
-      rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+      rel="stylesheet"
     />
     <link
-      rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
     />
     <script
       src="https://kit.fontawesome.com/428babd6fe.js"
@@ -21,16 +21,15 @@
     ></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/imask"></script>
-    <script defer type="module" src="render.js"></script>
+    <script src="render.js" type="module" defer></script>
   </head>
   <body>
     <main class="container">
-      <section class="section">
+      <section class="section pt-4">
         <h1 class="title has-text-centered">Formulário Descarte NF</h1>
-        <h2 class="subtitle">
+        <h2 class="subtitle has-text-centered">
           Preencha os campos para submeter requisições de descarte de notas
-          fiscais com base em identificadores únicos. Esses identificadores são
-          provenientes de uma lista ou arquivo.
+          fiscais com base em identificadores únicos.
         </h2>
         <div class="box">
           <form id="form">
@@ -38,10 +37,10 @@
               <label class="label" for="nome">Digite o nome</label>
               <div class="control has-icons-left">
                 <input
-                  class="input"
-                  type="text"
-                  name="nome"
                   id="nome"
+                  class="input"
+                  name="nome"
+                  type="text"
                   placeholder="Ex: Florentine Rosalie"
                 />
                 <span class="icon is-small is-left">
@@ -53,46 +52,69 @@
               <label class="label" for="cpf">CPF</label>
               <div class="control has-icons-left">
                 <input
-                  class="input"
-                  type="text"
-                  name="cpf"
                   id="cpf"
+                  class="input"
+                  name="cpf"
+                  type="text"
                   placeholder="Ex: 657.374.740-20"
                 />
                 <span class="icon is-small is-left">
                   <i class="fas fa-address-card"></i>
                 </span>
               </div>
-              <p class="help">Apenas números</p>
+              <p class="help">Apenas números.</p>
+            </div>
+            <div class="field">
+              <label class="label" for="estado">Estado</label>
+              <div class="control has-icons-left">
+                <div class="select is-fullwidth has-icons-left">
+                  <select id="estado" name="estado">
+                    <option>Selecione um Estado</option>
+                  </select>
+                </div>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-flag"></i>
+                </span>
+              </div>
             </div>
             <div class="field">
               <label class="label" for="cidade">Cidade</label>
               <div class="control has-icons-left">
-                <input
-                  class="input is-fullwidth"
-                  type="text"
-                  name="cidade"
-                  id="cidade"
-                  placeholder="Ex: Maringá"
-                />
+                <div class="select is-fullwidth cidade-holder">
+                  <select id="cidade" name="cidade">
+                    <option>Por favor, selecione um Estado</option>
+                  </select>
+                </div>
                 <span class="icon is-small is-left">
                   <i class="fas fa-city"></i>
                 </span>
               </div>
             </div>
+
             <div class="field">
-              <label class="label" for="cidade">Estado</label>
-              <div class="control has-icons-left">
+              <label class="label" for="cidade">Calibragem</label>
+              <div class="control">
                 <input
-                  class="input"
-                  type="text"
-                  name="estado"
-                  id="estado"
-                  placeholder="Ex: Paraná"
+                  style="width: 100%"
+                  type="range"
+                  min="10"
+                  max="100"
+                  list="tickmarks"
+                  value="50"
                 />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-flag"></i>
-                </span>
+                <datalist id="tickmarks">
+                  <option value="10" label="10%"></option>
+                  <option value="20"></option>
+                  <option value="30"></option>
+                  <option value="40"></option>
+                  <option value="50"></option>
+                  <option value="60" label="50%"></option>
+                  <option value="70"></option>
+                  <option value="80"></option>
+                  <option value="90"></option>
+                  <option value="100" label="100%"></option>
+                </datalist>
+                <p class="help">Número de pacotes de envio em massa.</p>
               </div>
             </div>
             <div class="field">
@@ -100,10 +122,10 @@
               <div class="file has-name is-fullwidth">
                 <label class="file-label">
                   <input
-                    class="file-input"
-                    type="file"
-                    name="arquivo"
                     id="fileInput"
+                    class="file-input"
+                    name="arquivo"
+                    type="file"
                   />
                   <span class="file-cta">
                     <span class="file-icon">
@@ -111,7 +133,7 @@
                     </span>
                     <span class="file-label"> Selecione o arquivo… </span>
                   </span>
-                  <span class="file-name" id="fileName">
+                  <span id="fileName" class="file-name">
                     Nenhum arquivo selecionado.
                   </span>
                 </label>
@@ -119,29 +141,36 @@
             </div>
           </form>
         </div>
-        <div class="control has-text-centered mt-5 mb-3">
-          <button type="submit" form="form" class="button is-link is-medium">
+        <div class="control has-text-centered mt-5">
+          <button class="button is-link is-medium" type="submit" form="form">
             <span class="icon">
-              <i class="fas fa-rocket"></i>
+              <i class="fas fa-recycle"></i>
             </span>
-            <span>Enviar formulário</span>
+            <span>Descartar Notas Fiscais</span>
           </button>
         </div>
       </section>
     </main>
-    <div class="modal" id="modal">
+    <div id="modal" class="modal">
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="section">
           <article class="message is-warning">
             <div class="message-body">
-             Estamos enviando requisições de descarte com base no número de
-              <strong>10</strong> requisições por etapa, ao receber um código de sucesso procedemos com as próximas.
+              Estamos enviando requisições de descarte com base no número de
+              <strong>10</strong> requisições por etapa, ao receber um código de
+              sucesso procedemos com as próximas.
               <p class="help">
-                Esse número poderá ser configurado no futuro através de um campo específico.
+                Esse número poderá ser configurado no futuro através de um campo
+                específico.
               </p>
+            </div>
           </article>
-          <progress class="progress is-success" id="progress" max="100"></progress>
+          <progress
+            id="progress"
+            class="progress is-success"
+            max="100"
+          ></progress>
         </div>
       </div>
     </div>

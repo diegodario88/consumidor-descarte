@@ -1,6 +1,8 @@
 const form = document.querySelector("#form");
 const fileInput = document.querySelector("#fileInput");
 const cpf = document.querySelector("#cpf");
+const estados = document.querySelector("#estado");
+const cidades = document.querySelector("#cidade");
 const modal = document.querySelector("#modal");
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -68,6 +70,63 @@ fileInput.onchange = () => {
   }
 };
 
+function clearCitiesSelect() {
+  document
+    .querySelectorAll("#cidade option")
+    .forEach((option) => option.remove());
+}
+
+function addDefaultCityOption() {
+  const option = document.createElement("option");
+  option.textContent = "Por favor, selecione um Estado";
+  cidades.appendChild(option);
+}
+
+estados.addEventListener("change", (evt) => {
+  const UF = evt.target.selectedOptions[0].value;
+  console.log(UF);
+  if (UF === "Selecione um Estado") {
+    clearCitiesSelect();
+    addDefaultCityOption();
+    return;
+  }
+
+  populateCitiesSelect(UF);
+});
+
+function populateStateSelect() {
+  axios
+    .get(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
+    )
+    .then(({ data }) =>
+      data.map((state) => {
+        const option = document.createElement("option");
+        option.setAttribute("value", state.sigla);
+        option.textContent = state.nome;
+        estados.appendChild(option);
+      })
+    );
+}
+
+async function populateCitiesSelect(UF) {
+  document.querySelector(".cidade-holder").classList.add("is-loading");
+  axios
+    .get(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${UF}/municipios`
+    )
+    .then(({ data }) => {
+      clearCitiesSelect();
+      data.map((city) => {
+        const option = document.createElement("option");
+        option.setAttribute("value", city.nome);
+        option.textContent = city.nome;
+        cidades.appendChild(option);
+        document.querySelector(".cidade-holder").classList.remove("is-loading");
+      });
+    });
+}
+
 IMask(cpf, {
   mask: "000.000.000-00",
 });
@@ -81,4 +140,6 @@ async function main() {
   console.log(results);
 }
 
-main();
+document.addEventListener("DOMContentLoaded", (event) => {
+  populateStateSelect();
+});
