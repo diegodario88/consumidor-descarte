@@ -7,6 +7,7 @@ const modal = document.querySelector("#modal");
 const calibragemValor = document.querySelector("#calibragem-valor");
 const itensTotal = document.querySelector("#itens-total");
 const progress = document.querySelector("#progress");
+const fileName = document.querySelector("#fileName");
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -14,6 +15,18 @@ const toObject = (acc, current) => {
   acc[current.name] = current.value;
   return acc;
 };
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top",
+  showConfirmButton: false,
+  timer: 5000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
 
 form.addEventListener("submit", async (evt) => {
   evt.preventDefault();
@@ -42,14 +55,19 @@ form.addEventListener("submit", async (evt) => {
     inputs["calibragem"],
     valuePerRound
   );
+
   console.log(results);
+
   modal.classList.remove("is-active");
-  Swal.fire({
-    position: "center",
+
+  Toast.fire({
     icon: "success",
-    title: "Todas as notas fiscais foram descartadas",
-    showConfirmButton: false,
-    timer: 1500,
+    title: "Todas as notas fiscais foram descartadas com sucesso!",
+  }).then(() => {
+    form.reset();
+    clearCitiesSelect();
+    addDefaultCityOption();
+    fileName.textContent = "Nenhum arquivo selecionado.";
   });
 });
 
@@ -57,7 +75,6 @@ const getInChunk = async function (items, chunkSize, valuePerRound) {
   const chunkResults = [];
   const results = [];
   let chunkPromises = [];
-  sleep(1000).then(() => progress.setAttribute("value", valuePerRound));
 
   for (let index = 0; index < items.length; index++) {
     if (index % chunkSize === 0) {
@@ -107,7 +124,6 @@ function fetchDiscarded() {
 
 fileInput.onchange = () => {
   if (fileInput.files.length > 0) {
-    const fileName = document.querySelector("#fileName");
     fileName.textContent = fileInput.files[0].name;
   }
 };
@@ -126,7 +142,7 @@ function addDefaultCityOption() {
 
 estados.addEventListener("change", (evt) => {
   const UF = evt.target.selectedOptions[0].value;
-  console.log(UF);
+
   if (UF === "Selecione um Estado") {
     clearCitiesSelect();
     addDefaultCityOption();
