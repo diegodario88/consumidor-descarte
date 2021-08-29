@@ -14,8 +14,8 @@ function createWindow() {
     },
   });
 
-  win.loadFile(path.join(__dirname, "index.html"));
-  win.setIcon(path.join(__dirname, "networking.png"));
+  win.loadFile(path.join(__dirname, "../index.html"));
+  win.setIcon(path.join(__dirname, "../assets/networking.png"));
 }
 
 app.whenReady().then(() => {

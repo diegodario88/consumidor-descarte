@@ -2,7 +2,7 @@
   "name": "consumidor-descarte",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "./src/main.js",
   "scripts": {
     "electron": "electron .",
     "start": "electron-forge start",
